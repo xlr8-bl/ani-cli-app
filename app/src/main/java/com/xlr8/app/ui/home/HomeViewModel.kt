@@ -2,8 +2,10 @@ package com.xlr8.app.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xlr8.app.data.local.WatchProgressEntity
 import com.xlr8.app.data.repository.DiscoveryRepository
 import com.xlr8.app.data.repository.JustAired
+import com.xlr8.app.data.repository.PlaybackRepository
 import com.xlr8.app.di.ServiceLocator
 import com.xlr8.app.domain.model.Anime
 import kotlinx.coroutines.async
@@ -18,6 +20,7 @@ data class HomeUiState(
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
     val errorMessage: String? = null,
+    val continueWatching: List<WatchProgressEntity> = emptyList(),
     val spotlight: List<Anime> = emptyList(),
     val justAired: List<JustAired> = emptyList(),
     val trending: List<Anime> = emptyList(),
@@ -31,16 +34,29 @@ data class HomeUiState(
 
 class HomeViewModel(
     private val repository: DiscoveryRepository,
+    private val playbackRepository: PlaybackRepository,
 ) : ViewModel() {
 
     // No-arg constructor so the default Compose `viewModel()` factory can build it.
-    constructor() : this(ServiceLocator.discoveryRepository)
+    constructor() : this(ServiceLocator.discoveryRepository, ServiceLocator.playbackRepository)
 
     private val _state = MutableStateFlow(HomeUiState())
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
     init {
         load()
+        observeContinueWatching()
+    }
+
+    private fun observeContinueWatching() {
+        viewModelScope.launch {
+            playbackRepository.continueWatching().collect { progress ->
+                // Hide finished episodes from the resume row.
+                _state.value = _state.value.copy(
+                    continueWatching = progress.filterNot { it.isFinished }.take(20),
+                )
+            }
+        }
     }
 
     fun refresh() = load(isRefresh = true)

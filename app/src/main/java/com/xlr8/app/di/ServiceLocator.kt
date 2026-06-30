@@ -8,6 +8,7 @@ import com.xlr8.app.data.remote.buildHttpClient
 import com.xlr8.app.data.repository.AllAnimeRepository
 import com.xlr8.app.data.repository.AnimeDetailRepository
 import com.xlr8.app.data.repository.DiscoveryRepository
+import com.xlr8.app.data.repository.PlaybackRepository
 import io.ktor.client.HttpClient
 
 /**
@@ -24,6 +25,9 @@ object ServiceLocator {
         appContext = context.applicationContext
     }
 
+    /** Application context for components that genuinely need one (e.g. ExoPlayer). */
+    val applicationContext: Context get() = appContext
+
     val httpClient: HttpClient by lazy { buildHttpClient() }
 
     private val aniListService: AniListService by lazy { AniListService(httpClient) }
@@ -37,5 +41,9 @@ object ServiceLocator {
 
     val allAnimeRepository: AllAnimeRepository by lazy {
         AllAnimeRepository(allAnimeService, database.sourceMappingDao())
+    }
+
+    val playbackRepository: PlaybackRepository by lazy {
+        PlaybackRepository(database.watchProgressDao())
     }
 }

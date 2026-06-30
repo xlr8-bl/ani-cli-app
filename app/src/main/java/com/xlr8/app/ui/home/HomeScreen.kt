@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xlr8.app.R
+import com.xlr8.app.ui.components.ContinueWatchingRow
 import com.xlr8.app.ui.components.HeroCarousel
 import com.xlr8.app.ui.components.SectionRow
 
@@ -34,6 +35,7 @@ import com.xlr8.app.ui.components.SectionRow
 @Composable
 fun HomeScreen(
     onAnimeClick: (Int) -> Unit,
+    onResume: (anilistId: Int, episode: Int) -> Unit = { _, _ -> },
     viewModel: HomeViewModel = viewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -47,13 +49,17 @@ fun HomeScreen(
             state.isLoading -> LoadingState()
             state.errorMessage != null && !state.hasContent ->
                 ErrorState(message = state.errorMessage!!, onRetry = viewModel::retry)
-            else -> HomeContent(state = state, onAnimeClick = onAnimeClick)
+            else -> HomeContent(state = state, onAnimeClick = onAnimeClick, onResume = onResume)
         }
     }
 }
 
 @Composable
-private fun HomeContent(state: HomeUiState, onAnimeClick: (Int) -> Unit) {
+private fun HomeContent(
+    state: HomeUiState,
+    onAnimeClick: (Int) -> Unit,
+    onResume: (anilistId: Int, episode: Int) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 24.dp),
@@ -62,6 +68,11 @@ private fun HomeContent(state: HomeUiState, onAnimeClick: (Int) -> Unit) {
         if (state.spotlight.isNotEmpty()) {
             item(key = "hero") {
                 HeroCarousel(items = state.spotlight, onAnimeClick = onAnimeClick)
+            }
+        }
+        if (state.continueWatching.isNotEmpty()) {
+            item(key = "continue") {
+                ContinueWatchingRow(items = state.continueWatching, onResume = onResume)
             }
         }
         if (state.justAired.isNotEmpty()) {

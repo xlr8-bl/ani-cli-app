@@ -26,4 +26,8 @@ enum class TopLevelDestination(
 object Routes {
     const val DETAIL = "detail/{anilistId}"
     fun detail(anilistId: Int) = "detail/$anilistId"
+
+    const val PLAYER = "player/{anilistId}/{episode}/{translation}"
+    fun player(anilistId: Int, episode: Int, translation: String = "sub") =
+        "player/$anilistId/$episode/$translation"
 }

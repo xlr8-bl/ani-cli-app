@@ -64,6 +64,7 @@ fun DetailScreen(
     anilistId: Int,
     onBack: () -> Unit,
     onAnimeClick: (Int) -> Unit = {},
+    onPlayEpisode: (Int) -> Unit = {},
     viewModel: DetailViewModel = viewModel(),
 ) {
     LaunchedEffect(anilistId) { viewModel.load(anilistId) }
@@ -78,6 +79,7 @@ fun DetailScreen(
                 detail = state.detail!!,
                 onSeasonClick = viewModel::switchTo,
                 onRelatedClick = onAnimeClick,
+                onPlayEpisode = onPlayEpisode,
             )
             else -> DetailError(message = state.errorMessage, onRetry = viewModel::retry)
         }
@@ -100,6 +102,7 @@ private fun DetailContent(
     detail: AnimeDetail,
     onSeasonClick: (Int) -> Unit,
     onRelatedClick: (Int) -> Unit,
+    onPlayEpisode: (Int) -> Unit,
 ) {
     val anime = detail.anime
     // Ephemeral until Room-backed watchlist arrives in the settings/library step.
@@ -118,13 +121,14 @@ private fun DetailContent(
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
+                val firstEpisode = detail.episodes.firstOrNull()?.number ?: 1
                 Button(
-                    onClick = { /* Playback wired in the player step. */ },
+                    onClick = { onPlayEpisode(firstEpisode) },
                     modifier = Modifier.weight(1f),
                 ) {
                     Icon(Icons.Filled.PlayArrow, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text(if (detail.episodes.isEmpty()) "Play" else "Play Ep 1")
+                    Text(if (detail.episodes.isEmpty()) "Play" else "Play Ep $firstEpisode")
                 }
                 FilledTonalButton(onClick = { inWatchlist = !inWatchlist }) {
                     Icon(
@@ -170,7 +174,7 @@ private fun DetailContent(
                     rowItems.forEach { ep ->
                         EpisodeCard(
                             episode = ep,
-                            onClick = { /* Opens the player in the playback step. */ },
+                            onClick = { onPlayEpisode(ep.number) },
                             modifier = Modifier.weight(1f),
                         )
                     }
