@@ -86,6 +86,7 @@ fun XLR8App() {
                     DetailScreen(
                         anilistId = id,
                         onBack = { navController.popBackStack() },
+                        onAnimeClick = { relatedId -> navController.navigate(Routes.detail(relatedId)) },
                     )
                 }
             }

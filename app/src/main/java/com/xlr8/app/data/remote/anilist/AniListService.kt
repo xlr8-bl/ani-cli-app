@@ -20,7 +20,7 @@ import kotlinx.serialization.json.buildJsonObject
  */
 class AniListService(private val client: HttpClient) {
 
-    private suspend fun executePage(query: String, variables: JsonObject): Page {
+    private suspend fun rawPost(query: String, variables: JsonObject): String {
         val response = client.post(ENDPOINT) {
             contentType(ContentType.Application.Json)
             headers {
@@ -28,7 +28,11 @@ class AniListService(private val client: HttpClient) {
             }
             setBody(GraphQLRequest(query = query, variables = variables))
         }
-        val raw = response.bodyAsText()
+        return response.bodyAsText()
+    }
+
+    private suspend fun executePage(query: String, variables: JsonObject): Page {
+        val raw = rawPost(query, variables)
         val parsed = XLR8Json.decodeFromString(
             GraphQLResponse.serializer(PageData.serializer()),
             raw,
@@ -72,6 +76,19 @@ class AniListService(private val client: HttpClient) {
             put("airingAtLesser", JsonPrimitive(airingAtLesser))
         }
         return executePage(AniListQueries.AIRING_SCHEDULE, variables).airingSchedules
+    }
+
+    /** Full detail for a single show by AniList id. */
+    suspend fun mediaDetail(id: Int): com.xlr8.app.domain.model.AnimeDetail {
+        val variables = buildJsonObject { put("id", JsonPrimitive(id)) }
+        val raw = rawPost(AniListQueries.MEDIA_DETAIL, variables)
+        val parsed = XLR8Json.decodeFromString(
+            GraphQLResponse.serializer(MediaData.serializer()),
+            raw,
+        )
+        parsed.errors?.firstOrNull()?.let { throw AniListException(it.message) }
+        val media = parsed.data?.media ?: throw AniListException("Show not found on AniList")
+        return media.toDetail()
     }
 
     suspend fun search(

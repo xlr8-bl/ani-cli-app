@@ -2,6 +2,7 @@ package com.xlr8.app.di
 
 import com.xlr8.app.data.remote.anilist.AniListService
 import com.xlr8.app.data.remote.buildHttpClient
+import com.xlr8.app.data.repository.AnimeDetailRepository
 import com.xlr8.app.data.repository.DiscoveryRepository
 import io.ktor.client.HttpClient
 
@@ -16,4 +17,6 @@ object ServiceLocator {
     private val aniListService: AniListService by lazy { AniListService(httpClient) }
 
     val discoveryRepository: DiscoveryRepository by lazy { DiscoveryRepository(aniListService) }
+
+    val animeDetailRepository: AnimeDetailRepository by lazy { AnimeDetailRepository(aniListService) }
 }

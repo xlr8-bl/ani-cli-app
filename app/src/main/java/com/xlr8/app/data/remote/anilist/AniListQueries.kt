@@ -57,6 +57,56 @@ object AniListQueries {
         }
     """.trimIndent()
 
+    /**
+     * Full single-show detail: streaming episodes (real thumbnails + titles),
+     * characters with their voice actors, and relations for the season selector
+     * and Related row.
+     */
+    val MEDIA_DETAIL = """
+        query MediaDetail(${'$'}id: Int) {
+          Media(id: ${'$'}id, type: ANIME) {
+            id
+            type
+            title { romaji english native }
+            coverImage { extraLarge large color }
+            bannerImage
+            description(asHtml: false)
+            genres
+            averageScore
+            status
+            season
+            seasonYear
+            format
+            episodes
+            duration
+            studios(isMain: true) { nodes { name isAnimationStudio } }
+            nextAiringEpisode { airingAt episode }
+            streamingEpisodes { title thumbnail url site }
+            characters(sort: [ROLE, RELEVANCE], perPage: 16) {
+              edges {
+                role
+                node { id name { full native } image { large medium } }
+                voiceActors(sort: RELEVANCE) { id name { full } image { large } languageV2 }
+              }
+            }
+            relations {
+              edges {
+                relationType(version: 2)
+                node {
+                  id
+                  type
+                  format
+                  status
+                  seasonYear
+                  title { romaji english }
+                  coverImage { extraLarge large }
+                }
+              }
+            }
+          }
+        }
+    """.trimIndent()
+
     /** Free-text search used by the Search screen. */
     val SEARCH = """
         query Search(${'$'}page: Int, ${'$'}perPage: Int, ${'$'}search: String, ${'$'}genre: String, ${'$'}seasonYear: Int, ${'$'}format: MediaFormat) {

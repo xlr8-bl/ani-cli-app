@@ -60,6 +60,7 @@ data class NextAiringEpisode(
 @Serializable
 data class MediaDto(
     val id: Int,
+    val type: String? = null,
     val title: MediaTitle? = null,
     val coverImage: MediaCoverImage? = null,
     val bannerImage: String? = null,
@@ -71,8 +72,12 @@ data class MediaDto(
     val seasonYear: Int? = null,
     val format: String? = null,
     val episodes: Int? = null,
+    val duration: Int? = null,
     val studios: StudioConnection? = null,
     val nextAiringEpisode: NextAiringEpisode? = null,
+    val streamingEpisodes: List<StreamingEpisodeDto> = emptyList(),
+    val characters: CharacterConnection? = null,
+    val relations: MediaRelationConnection? = null,
 ) {
     fun toDomain(): Anime = Anime(
         anilistId = id,
@@ -104,4 +109,57 @@ data class AiringScheduleDto(
     val airingAt: Long,
     val episode: Int,
     val media: MediaDto? = null,
+)
+
+// ---- Detail-only DTOs (streaming episodes, characters/VAs, relations) ----
+
+@Serializable
+data class MediaData(@SerialName("Media") val media: MediaDto)
+
+@Serializable
+data class StreamingEpisodeDto(
+    val title: String? = null,
+    val thumbnail: String? = null,
+    val url: String? = null,
+    val site: String? = null,
+)
+
+@Serializable
+data class CharacterConnection(val edges: List<CharacterEdge> = emptyList())
+
+@Serializable
+data class CharacterEdge(
+    val role: String? = null,
+    val node: CharacterNode? = null,
+    val voiceActors: List<VoiceActorDto> = emptyList(),
+)
+
+@Serializable
+data class CharacterNode(
+    val id: Int,
+    val name: PersonName? = null,
+    val image: PersonImage? = null,
+)
+
+@Serializable
+data class VoiceActorDto(
+    val id: Int,
+    val name: PersonName? = null,
+    val image: PersonImage? = null,
+    val languageV2: String? = null,
+)
+
+@Serializable
+data class PersonName(val full: String? = null, val native: String? = null)
+
+@Serializable
+data class PersonImage(val large: String? = null, val medium: String? = null)
+
+@Serializable
+data class MediaRelationConnection(val edges: List<MediaRelationEdge> = emptyList())
+
+@Serializable
+data class MediaRelationEdge(
+    val relationType: String? = null,
+    val node: MediaDto? = null,
 )
