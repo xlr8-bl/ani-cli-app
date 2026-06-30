@@ -45,6 +45,7 @@ object EasterEggs {
         "the hat is goofy 💔🥀",
         "still watching that 😭💔🙏",
         "nothing happens and it takes an hour ✌️🫩",
+        "dragging ts more than the low taper fade 💔🥀",
     )
 
     /** naruto's in the big three, no glazing though. mid, but still up there. */
