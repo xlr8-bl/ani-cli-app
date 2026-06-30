@@ -8,6 +8,7 @@ import com.xlr8.app.data.remote.buildHttpClient
 import com.xlr8.app.data.repository.AllAnimeRepository
 import com.xlr8.app.data.repository.AnimeDetailRepository
 import com.xlr8.app.data.repository.DiscoveryRepository
+import com.xlr8.app.data.repository.DownloadRepository
 import com.xlr8.app.data.repository.PlaybackRepository
 import io.ktor.client.HttpClient
 
@@ -33,7 +34,8 @@ object ServiceLocator {
     private val aniListService: AniListService by lazy { AniListService(httpClient) }
     private val allAnimeService: AllAnimeService by lazy { AllAnimeService(httpClient) }
 
-    private val database: XLR8Database by lazy { XLR8Database.build(appContext) }
+    // Public so the WorkManager worker (constructed by the framework) can reach the DAO.
+    val database: XLR8Database by lazy { XLR8Database.build(appContext) }
 
     val discoveryRepository: DiscoveryRepository by lazy { DiscoveryRepository(aniListService) }
 
@@ -45,5 +47,9 @@ object ServiceLocator {
 
     val playbackRepository: PlaybackRepository by lazy {
         PlaybackRepository(database.watchProgressDao())
+    }
+
+    val downloadRepository: DownloadRepository by lazy {
+        DownloadRepository(appContext, database.downloadDao())
     }
 }

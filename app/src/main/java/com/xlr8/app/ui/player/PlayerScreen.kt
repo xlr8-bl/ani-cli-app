@@ -126,8 +126,16 @@ fun PlayerScreen(
     var overlayHint by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(overlayHint) {
         if (overlayHint != null) {
-            delay(700)
+            delay(1200)
             overlayHint = null
+        }
+    }
+
+    // Surface one-shot messages (download queued, HLS unsupported, ...) as a brief hint.
+    LaunchedEffect(state.message) {
+        state.message?.let {
+            overlayHint = it
+            viewModel.consumeMessage()
         }
     }
 
@@ -279,6 +287,7 @@ fun PlayerScreen(
                         activity?.enterPictureInPictureMode(PictureInPictureParams.Builder().build())
                     }
                 },
+                onDownload = viewModel::downloadCurrent,
             )
         }
     }

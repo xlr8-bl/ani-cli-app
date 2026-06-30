@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.media3.common.util.UnstableApi
 import com.xlr8.app.domain.model.TranslationType
 import com.xlr8.app.ui.detail.DetailScreen
+import com.xlr8.app.ui.downloads.DownloadsScreen
 import com.xlr8.app.ui.home.HomeScreen
 import com.xlr8.app.ui.navigation.Routes
 import com.xlr8.app.ui.navigation.TopLevelDestination
@@ -81,7 +82,9 @@ fun XLR8App() {
                     PlaceholderScreen("Library", "Watchlist, history and resume — backed by on-device Room.")
                 }
                 composable(TopLevelDestination.DOWNLOADS.route) {
-                    PlaceholderScreen("Downloads", "Offline episodes with progress and storage usage.")
+                    DownloadsScreen(
+                        onPlayOffline = { id, episode -> navController.navigate(Routes.player(id, episode)) },
+                    )
                 }
                 composable(TopLevelDestination.SETTINGS.route) {
                     PlaceholderScreen("Settings", "Theme, default quality, privacy statement and backup/restore.")

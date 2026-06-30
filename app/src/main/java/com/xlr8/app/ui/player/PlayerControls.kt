@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.HighQuality
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PictureInPictureAlt
@@ -62,6 +64,7 @@ fun PlayerControls(
     onSwitchTranslation: (TranslationType) -> Unit,
     onSetSpeed: (Float) -> Unit,
     onEnterPip: () -> Unit,
+    onDownload: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -105,6 +108,13 @@ fun PlayerControls(
             }
             EpisodeMenu(state.episodes, onSelectEpisode)
             QualityMenu(state.qualities, state.currentQuality, onSelectQuality)
+            IconButton(onClick = onDownload) {
+                Icon(
+                    if (state.playingOffline) Icons.Filled.Check else Icons.Filled.Download,
+                    contentDescription = "Download episode",
+                    tint = Color.White,
+                )
+            }
             SpeedMenu(onSetSpeed)
             IconButton(onClick = onEnterPip) {
                 Icon(Icons.Filled.PictureInPictureAlt, contentDescription = "Picture in picture", tint = Color.White)
