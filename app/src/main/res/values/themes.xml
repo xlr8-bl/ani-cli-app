@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. Compose drives the real colors; this is the
+         pre-Compose shell used before setContent runs. -->
+    <style name="Theme.XLR8" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Splash screen theme (androidx.core.splashscreen). -->
+    <style name="Theme.XLR8.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/xlr8_ink</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_xlr8_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.XLR8</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+</resources>

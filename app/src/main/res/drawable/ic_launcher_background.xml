@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#0E1116"
+        android:pathData="M0,0 H108 V108 H0 Z" />
+    <!-- Subtle speed streaks -->
+    <path
+        android:fillColor="#16213A"
+        android:pathData="M0,70 L108,42 L108,52 L0,80 Z" />
+    <path
+        android:fillColor="#16213A"
+        android:pathData="M0,86 L108,58 L108,64 L0,92 Z" />
+</vector>
