@@ -77,7 +77,7 @@ class DetailViewModel(
                 if (_currentId.value == anilistId) {
                     val egg = when {
                         EasterEggs.isOnePiece(detail.anime) -> EasterEggs.onePieceRoastOrNull()
-                        EasterEggs.isBleach(detail.anime) -> EasterEggs.BLEACH_MANTRA
+                        EasterEggs.isBleach(detail.anime) -> EasterEggs.bleachOpenLine()
                         EasterEggs.isNaruto(detail.anime) -> EasterEggs.narutoTakeOrNull()
                         else -> null
                     }

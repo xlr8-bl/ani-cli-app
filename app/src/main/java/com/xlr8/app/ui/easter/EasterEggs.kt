@@ -12,6 +12,27 @@ object EasterEggs {
     /** The recurring mantra (verbatim wording), glazed with the bleach emojis. */
     const val BLEACH_MANTRA = "the bleach is peak and the peak is bleach 🤧🔥"
 
+    /** the bleach glaze pool (the mantra lives here too). all of it, peak. */
+    val BLEACH_GLAZE = listOf(
+        BLEACH_MANTRA,
+        "ichigo's drip is undefeated and so is the soundtrack 🤧🔥",
+        "every bleach opening goes harder than your favorite song 🤧🔥",
+        "bankai reveal then chills for the rest of the week 🤧🔥",
+        "the animation comeback was a flex on the entire industry 🤧🔥",
+        "no amount of filler can dim that bankai glow 🤧🔥",
+        "thousand year blood war said hold my reiatsu 🤧🔥",
+        "kubo cooked and never let it simmer 🤧🔥",
+    )
+
+    /** a sprinkle of ronaldo glaze. siuuu. */
+    val RONALDO_GLAZE = listOf(
+        "siuuuu 🐐🤧🔥",
+        "the goat never rests and neither does a bankai 🐐🔥",
+        "cristiano would watch bleach and go siuuu 🐐🤧🔥",
+        "900 goals, zero filler, pure peak 🐐🔥",
+        "5 ballon d'ors stacked like ichigo's bankai forms 🐐🤧🔥",
+    )
+
     /** The big three, corrected: bleach is canonically in; one piece is conspicuously not. */
     val REAL_BIG_THREE = listOf("naruto", "bleach", "dragon ball")
     const val REAL_BIG_THREE_CAPTION = "da real BIG three (yes bro)"
@@ -61,6 +82,10 @@ object EasterEggs {
     /** A Naruto "mid, but still up there" take, shown occasionally. */
     fun narutoTakeOrNull(chance: Float = 0.7f): String? =
         if (Random.nextFloat() < chance) NARUTO_TAKES.random() else null
+
+    /** Always glaze bleach on open, with a ~15% sprinkle of ronaldo glaze. */
+    fun bleachOpenLine(): String =
+        if (Random.nextFloat() < 0.15f) RONALDO_GLAZE.random() else BLEACH_GLAZE.random()
 
     private fun Anime.matchesAnyTitle(needle: String): Boolean {
         val n = needle.lowercase()

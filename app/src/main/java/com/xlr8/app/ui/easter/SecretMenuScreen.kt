@@ -62,6 +62,12 @@ fun SecretMenuScreen(onBack: () -> Unit) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
+            Section("more bleach glaze 🤧🔥")
+            EasterEggs.BLEACH_GLAZE.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
+
+            Section("ronaldo glaze 🐐")
+            EasterEggs.RONALDO_GLAZE.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
+
             Section("certified one piece takes")
             EasterEggs.ONE_PIECE_ROASTS.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
 
