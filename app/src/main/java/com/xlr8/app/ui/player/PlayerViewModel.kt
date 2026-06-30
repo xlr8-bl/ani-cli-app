@@ -16,7 +16,9 @@ import com.xlr8.app.data.repository.AllAnimeRepository
 import com.xlr8.app.data.repository.AnimeDetailRepository
 import com.xlr8.app.data.repository.DownloadRepository
 import com.xlr8.app.data.repository.PlaybackRepository
+import com.xlr8.app.data.settings.SettingsRepository
 import com.xlr8.app.di.ServiceLocator
+import kotlinx.coroutines.flow.first
 import com.xlr8.app.domain.model.AllAnimeShow
 import com.xlr8.app.domain.model.Anime
 import com.xlr8.app.domain.model.TranslationType
@@ -59,6 +61,7 @@ class PlayerViewModel(
     private val allAnimeRepository: AllAnimeRepository,
     private val playbackRepository: PlaybackRepository,
     private val downloadRepository: DownloadRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     constructor() : this(
@@ -66,6 +69,7 @@ class PlayerViewModel(
         ServiceLocator.allAnimeRepository,
         ServiceLocator.playbackRepository,
         ServiceLocator.downloadRepository,
+        ServiceLocator.settingsRepository,
     )
 
     val player: ExoPlayer = buildPlayer()
@@ -236,7 +240,7 @@ class PlayerViewModel(
                     )
                     return@launch
                 }
-                val preferred = sources.first() // already sorted best-first
+                val preferred = choosePreferred(sources) // honors the default-quality setting
                 val resumeMs = if (resume) {
                     playbackRepository.progressFor(_state.value.anilistId, episode)
                         ?.takeIf { !it.isFinished }?.positionMs ?: 0L
@@ -255,6 +259,19 @@ class PlayerViewModel(
                     isLoading = false,
                     errorMessage = t.message ?: "Couldn't resolve this episode.",
                 )
+            }
+        }
+    }
+
+    /** Picks the starting source from the resolved list using the user's default-quality setting. */
+    private suspend fun choosePreferred(sources: List<VideoSource>): VideoSource {
+        // sources arrive sorted best-first.
+        return when (val pref = settingsRepository.settings.first().defaultQuality) {
+            "best" -> sources.first()
+            "worst" -> sources.last()
+            else -> {
+                val target = pref.toIntOrNull() ?: return sources.first()
+                sources.minByOrNull { kotlin.math.abs(it.heightOrZero - target) } ?: sources.first()
             }
         }
     }

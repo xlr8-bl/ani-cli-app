@@ -10,8 +10,14 @@ import androidx.room.RoomDatabase
  * downloads and resume positions are added in later steps as new entities/DAOs.
  */
 @Database(
-    entities = [SourceMappingEntity::class, WatchProgressEntity::class, DownloadEntity::class],
-    version = 3,
+    entities = [
+        SourceMappingEntity::class,
+        WatchProgressEntity::class,
+        DownloadEntity::class,
+        WatchlistEntity::class,
+        RecentSearchEntity::class,
+    ],
+    version = 4,
     exportSchema = false,
 )
 abstract class XLR8Database : RoomDatabase() {
@@ -21,6 +27,10 @@ abstract class XLR8Database : RoomDatabase() {
     abstract fun watchProgressDao(): WatchProgressDao
 
     abstract fun downloadDao(): DownloadDao
+
+    abstract fun watchlistDao(): WatchlistDao
+
+    abstract fun recentSearchDao(): RecentSearchDao
 
     companion object {
         fun build(context: Context): XLR8Database =

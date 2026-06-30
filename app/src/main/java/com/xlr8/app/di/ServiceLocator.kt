@@ -7,9 +7,13 @@ import com.xlr8.app.data.remote.anilist.AniListService
 import com.xlr8.app.data.remote.buildHttpClient
 import com.xlr8.app.data.repository.AllAnimeRepository
 import com.xlr8.app.data.repository.AnimeDetailRepository
+import com.xlr8.app.data.repository.BackupRepository
 import com.xlr8.app.data.repository.DiscoveryRepository
 import com.xlr8.app.data.repository.DownloadRepository
+import com.xlr8.app.data.repository.LibraryRepository
 import com.xlr8.app.data.repository.PlaybackRepository
+import com.xlr8.app.data.repository.SearchRepository
+import com.xlr8.app.data.settings.SettingsRepository
 import io.ktor.client.HttpClient
 
 /**
@@ -51,5 +55,23 @@ object ServiceLocator {
 
     val downloadRepository: DownloadRepository by lazy {
         DownloadRepository(appContext, database.downloadDao())
+    }
+
+    val settingsRepository: SettingsRepository by lazy { SettingsRepository(appContext) }
+
+    val libraryRepository: LibraryRepository by lazy { LibraryRepository(database.watchlistDao()) }
+
+    val searchRepository: SearchRepository by lazy {
+        SearchRepository(aniListService, database.recentSearchDao())
+    }
+
+    val backupRepository: BackupRepository by lazy {
+        BackupRepository(
+            watchlistDao = database.watchlistDao(),
+            watchProgressDao = database.watchProgressDao(),
+            sourceMappingDao = database.sourceMappingDao(),
+            recentSearchDao = database.recentSearchDao(),
+            settingsRepository = settingsRepository,
+        )
     }
 }

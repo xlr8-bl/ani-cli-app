@@ -16,23 +16,32 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.util.UnstableApi
+import com.xlr8.app.data.settings.AppSettings
+import com.xlr8.app.di.ServiceLocator
 import com.xlr8.app.domain.model.TranslationType
 import com.xlr8.app.ui.detail.DetailScreen
 import com.xlr8.app.ui.downloads.DownloadsScreen
 import com.xlr8.app.ui.home.HomeScreen
+import com.xlr8.app.ui.library.LibraryScreen
 import com.xlr8.app.ui.navigation.Routes
 import com.xlr8.app.ui.navigation.TopLevelDestination
-import com.xlr8.app.ui.placeholder.PlaceholderScreen
+import com.xlr8.app.ui.search.SearchScreen
+import com.xlr8.app.ui.settings.SettingsScreen
 import com.xlr8.app.ui.player.PlayerScreen
-import com.xlr8.app.ui.theme.ThemeMode
 import com.xlr8.app.ui.theme.XLR8Theme
 
 @UnstableApi
 @Composable
 fun XLR8App() {
-    // Theme preferences will be wired to DataStore in the Settings step; defaults for now.
-    XLR8Theme(themeMode = ThemeMode.SYSTEM, dynamicColor = true, amoled = false) {
+    val settings by ServiceLocator.settingsRepository.settings
+        .collectAsStateWithLifecycle(initialValue = AppSettings())
+    XLR8Theme(
+        themeMode = settings.themeMode,
+        dynamicColor = settings.dynamicColor,
+        amoled = settings.amoled,
+    ) {
         val navController = rememberNavController()
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route
@@ -76,10 +85,14 @@ fun XLR8App() {
                     )
                 }
                 composable(TopLevelDestination.SEARCH.route) {
-                    PlaceholderScreen("Search", "Debounced AniList search lands here in the next step.")
+                    SearchScreen(
+                        onAnimeClick = { id -> navController.navigate(Routes.detail(id)) },
+                    )
                 }
                 composable(TopLevelDestination.LIBRARY.route) {
-                    PlaceholderScreen("Library", "Watchlist, history and resume — backed by on-device Room.")
+                    LibraryScreen(
+                        onAnimeClick = { id -> navController.navigate(Routes.detail(id)) },
+                    )
                 }
                 composable(TopLevelDestination.DOWNLOADS.route) {
                     DownloadsScreen(
@@ -87,7 +100,7 @@ fun XLR8App() {
                     )
                 }
                 composable(TopLevelDestination.SETTINGS.route) {
-                    PlaceholderScreen("Settings", "Theme, default quality, privacy statement and backup/restore.")
+                    SettingsScreen()
                 }
                 composable(Routes.DETAIL) { entry ->
                     val id = entry.arguments?.getString("anilistId")?.toIntOrNull() ?: return@composable

@@ -75,12 +75,17 @@ fun DetailScreen(
             state.isLoading -> Box(Modifier.fillMaxSize(), Alignment.Center) {
                 CircularProgressIndicator()
             }
-            state.detail != null -> DetailContent(
-                detail = state.detail!!,
-                onSeasonClick = viewModel::switchTo,
-                onRelatedClick = onAnimeClick,
-                onPlayEpisode = onPlayEpisode,
-            )
+            state.detail != null -> {
+                val inWatchlist by viewModel.inWatchlist.collectAsStateWithLifecycle()
+                DetailContent(
+                    detail = state.detail!!,
+                    inWatchlist = inWatchlist,
+                    onToggleWatchlist = viewModel::toggleWatchlist,
+                    onSeasonClick = viewModel::switchTo,
+                    onRelatedClick = onAnimeClick,
+                    onPlayEpisode = onPlayEpisode,
+                )
+            }
             else -> DetailError(message = state.errorMessage, onRetry = viewModel::retry)
         }
 
@@ -100,13 +105,13 @@ fun DetailScreen(
 @Composable
 private fun DetailContent(
     detail: AnimeDetail,
+    inWatchlist: Boolean,
+    onToggleWatchlist: () -> Unit,
     onSeasonClick: (Int) -> Unit,
     onRelatedClick: (Int) -> Unit,
     onPlayEpisode: (Int) -> Unit,
 ) {
     val anime = detail.anime
-    // Ephemeral until Room-backed watchlist arrives in the settings/library step.
-    var inWatchlist by remember(anime.anilistId) { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -130,7 +135,7 @@ private fun DetailContent(
                     Spacer(Modifier.width(6.dp))
                     Text(if (detail.episodes.isEmpty()) "Play" else "Play Ep $firstEpisode")
                 }
-                FilledTonalButton(onClick = { inWatchlist = !inWatchlist }) {
+                FilledTonalButton(onClick = onToggleWatchlist) {
                     Icon(
                         if (inWatchlist) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
                         contentDescription = "Watchlist",

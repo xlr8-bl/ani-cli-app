@@ -41,6 +41,9 @@ class AllAnimeRepository(
     /** Forgets a mapping (e.g. the user picked the wrong show). */
     suspend fun unlink(anilistId: Int) = mappingDao.clear(anilistId)
 
+    /** Clears all cached AniList↔AllAnime mappings (re-resolved on next play). */
+    suspend fun clearSourceCache() = mappingDao.clearAll()
+
     suspend fun episodeNumbers(show: AllAnimeShow, translation: TranslationType): List<String> =
         service.episodeNumbers(show.id, translation)
 

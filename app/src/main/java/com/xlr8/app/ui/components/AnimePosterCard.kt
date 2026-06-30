@@ -34,7 +34,6 @@ fun AnimePosterCard(
 ) {
     Column(
         modifier = modifier
-            .width(132.dp)
             .clickable(onClick = onClick),
     ) {
         Box(

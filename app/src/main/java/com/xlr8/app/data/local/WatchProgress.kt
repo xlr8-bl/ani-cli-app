@@ -6,11 +6,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.Serializable
 
 /**
  * Resume position + lightweight history for an episode. Keyed by (show, episode) so each
  * episode keeps its own position. Doubles as the Continue Watching source on Home.
  */
+@Serializable
 @Entity(tableName = "watch_progress", primaryKeys = ["anilistId", "episode"])
 data class WatchProgressEntity(
     val anilistId: Int,
@@ -54,6 +56,9 @@ interface WatchProgressDao {
         """,
     )
     fun continueWatching(): Flow<List<WatchProgressEntity>>
+
+    @Query("SELECT * FROM watch_progress")
+    suspend fun snapshot(): List<WatchProgressEntity>
 
     @Query("DELETE FROM watch_progress")
     suspend fun clearAll()

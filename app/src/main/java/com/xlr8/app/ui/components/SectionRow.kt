@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +40,7 @@ fun SectionRow(
                 AnimePosterCard(
                     anime = anime,
                     onClick = { onAnimeClick(anime.anilistId) },
+                    modifier = Modifier.width(132.dp),
                     isNew = isNew(anime),
                     subtitle = subtitle(anime),
                 )
