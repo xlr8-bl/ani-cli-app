@@ -12,25 +12,23 @@ object EasterEggs {
     /** The recurring mantra (verbatim wording), glazed with the bleach emojis. */
     const val BLEACH_MANTRA = "the bleach is peak and the peak is bleach 🤧🔥"
 
-    /** the bleach glaze pool (the mantra lives here too). all of it, peak. */
+    /** the bleach glaze pool (the mantra lives here too). */
     val BLEACH_GLAZE = listOf(
         BLEACH_MANTRA,
-        "ichigo's drip is undefeated and so is the soundtrack 🤧🔥",
-        "every bleach opening goes harder than your favorite song 🤧🔥",
-        "bankai reveal then chills for the rest of the week 🤧🔥",
-        "the animation comeback was a flex on the entire industry 🤧🔥",
-        "no amount of filler can dim that bankai glow 🤧🔥",
-        "thousand year blood war said hold my reiatsu 🤧🔥",
-        "kubo cooked and never let it simmer 🤧🔥",
+        "bleach is just cooler than your show 🤧🔥",
+        "bankai. that's the whole point 🤧🔥",
+        "tybw goes crazy 🤧🔥",
+        "every opening slaps 🤧🔥",
+        "the soundtrack alone mogs 🤧🔥",
+        "ichigo > 🤧🔥",
     )
 
-    /** a sprinkle of ronaldo glaze. siuuu. */
+    /** a sprinkle of ronaldo glaze. */
     val RONALDO_GLAZE = listOf(
-        "siuuuu 🐐🤧🔥",
-        "the goat never rests and neither does a bankai 🐐🔥",
-        "cristiano would watch bleach and go siuuu 🐐🤧🔥",
-        "900 goals, zero filler, pure peak 🐐🔥",
-        "5 ballon d'ors stacked like ichigo's bankai forms 🐐🤧🔥",
+        "siuuu 🐐🤧🔥",
+        "the goat 🐐🔥",
+        "cr7 would watch bleach 🐐🤧🔥",
+        "five ballon d'ors. that's the post 🐐🔥",
     )
 
     /** The big three, corrected: bleach is canonically in; one piece is conspicuously not. */
@@ -39,16 +37,14 @@ object EasterEggs {
 
     /** Light, rotating jabs shown when a one piece entry is opened. */
     val ONE_PIECE_ROASTS = listOf(
-        "a baby born when it aired can legally drink now and they're still at sea 😭💔🙏",
-        "every island is 'the most important arc yet' for the 47th time ✌️🫩",
-        "gear 5 was peak, the 900 episodes before it were a warmup 💔🥀",
-        "spent more time at one tea party than most shows run in total 😭💔🙏",
-        "1100 episodes deep and the treasure is still a rumor ✌️🫩",
-        "they scream the attack name longer than the fight actually lasts 💔🥀",
-        "the pacing is a glacier and the glacier is winning 😭💔🙏",
-        "you could learn fluent japanese in the time one arc takes ✌️🫩",
-        "two hours of episode, four minutes of plot, eleven flashbacks 💔🥀",
-        "still 'almost at the next island' since before you had a phone 😭💔🙏",
+        "1000+ episodes and it's still not done 😭💔🙏",
+        "bro is on a boat ✌️🫩",
+        "rubber man looking for a box 💔🥀",
+        "it's never going to end and you know it 😭💔🙏",
+        "1100 episodes in for what ✌️🫩",
+        "the hat is goofy 💔🥀",
+        "still watching that 😭💔🙏",
+        "nothing happens and it takes an hour ✌️🫩",
     )
 
     /** naruto's in the big three, no glazing though. mid, but still up there. */
