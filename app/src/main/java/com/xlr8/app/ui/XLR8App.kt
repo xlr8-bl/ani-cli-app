@@ -23,6 +23,7 @@ import com.xlr8.app.di.ServiceLocator
 import com.xlr8.app.domain.model.TranslationType
 import com.xlr8.app.ui.detail.DetailScreen
 import com.xlr8.app.ui.downloads.DownloadsScreen
+import com.xlr8.app.ui.easter.SecretMenuScreen
 import com.xlr8.app.ui.home.HomeScreen
 import com.xlr8.app.ui.library.LibraryScreen
 import com.xlr8.app.ui.navigation.Routes
@@ -82,6 +83,7 @@ fun XLR8App() {
                     HomeScreen(
                         onAnimeClick = { id -> navController.navigate(Routes.detail(id)) },
                         onResume = { id, episode -> navController.navigate(Routes.player(id, episode)) },
+                        onOpenSecretMenu = { navController.navigate(Routes.SECRET_MENU) },
                     )
                 }
                 composable(TopLevelDestination.SEARCH.route) {
@@ -110,6 +112,9 @@ fun XLR8App() {
                         onAnimeClick = { relatedId -> navController.navigate(Routes.detail(relatedId)) },
                         onPlayEpisode = { episode -> navController.navigate(Routes.player(id, episode)) },
                     )
+                }
+                composable(Routes.SECRET_MENU) {
+                    SecretMenuScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Routes.PLAYER) { entry ->
                     val id = entry.arguments?.getString("anilistId")?.toIntOrNull() ?: return@composable

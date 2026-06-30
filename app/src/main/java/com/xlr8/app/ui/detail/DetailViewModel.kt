@@ -6,6 +6,7 @@ import com.xlr8.app.data.repository.AnimeDetailRepository
 import com.xlr8.app.data.repository.LibraryRepository
 import com.xlr8.app.di.ServiceLocator
 import com.xlr8.app.domain.model.AnimeDetail
+import com.xlr8.app.ui.easter.EasterEggs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,6 +21,8 @@ data class DetailUiState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
     val detail: AnimeDetail? = null,
+    /** One-shot hidden in-joke shown when certain shows open (One Piece roast / Bleach mantra). */
+    val easterEgg: String? = null,
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -52,6 +55,10 @@ class DetailViewModel(
 
     fun retry() = _currentId.value?.let { fetch(it) }
 
+    fun consumeEasterEgg() {
+        if (_state.value.easterEgg != null) _state.value = _state.value.copy(easterEgg = null)
+    }
+
     fun toggleWatchlist() {
         val anime = _state.value.detail?.anime ?: return
         viewModelScope.launch {
@@ -68,7 +75,13 @@ class DetailViewModel(
                 val detail = repository.detail(anilistId)
                 // Guard against a slow earlier request landing after a season switch.
                 if (_currentId.value == anilistId) {
-                    _state.value = DetailUiState(isLoading = false, detail = detail)
+                    val egg = when {
+                        EasterEggs.isOnePiece(detail.anime) -> EasterEggs.onePieceRoastOrNull()
+                        EasterEggs.isBleach(detail.anime) -> EasterEggs.BLEACH_MANTRA
+                        EasterEggs.isNaruto(detail.anime) -> EasterEggs.narutoTakeOrNull()
+                        else -> null
+                    }
+                    _state.value = DetailUiState(isLoading = false, detail = detail, easterEgg = egg)
                 }
             } catch (t: Throwable) {
                 if (_currentId.value == anilistId) {

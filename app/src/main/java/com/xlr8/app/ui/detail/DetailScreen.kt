@@ -1,7 +1,9 @@
 package com.xlr8.app.ui.detail
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +54,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.xlr8.app.domain.model.AnimeDetail
+import com.xlr8.app.ui.easter.EasterEggs
 import com.xlr8.app.util.stripHtml
 
 /**
@@ -98,6 +101,29 @@ fun DetailScreen(
                 .background(Color.Black.copy(alpha = 0.35f)),
         ) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+        }
+
+        // Hidden in-joke banner (One Piece roast / Bleach mantra), dismissible & auto-hiding.
+        state.easterEgg?.let { egg ->
+            LaunchedEffect(egg) {
+                kotlinx.coroutines.delay(6000)
+                viewModel.consumeEasterEgg()
+            }
+            Surface(
+                color = Color.Black.copy(alpha = 0.85f),
+                contentColor = Color.White,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+                    .clickable { viewModel.consumeEasterEgg() },
+            ) {
+                Text(
+                    text = egg,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                )
+            }
         }
     }
 }
@@ -218,6 +244,7 @@ private fun DetailContent(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Hero(detail: AnimeDetail) {
     val anime = detail.anime
@@ -280,18 +307,37 @@ private fun Hero(detail: AnimeDetail) {
                     anime.scoreOutOfTen?.let { MetaChip("★ ${"%.1f".format(it)}") }
                     anime.status?.let { MetaChip(prettyRelation(it)) }
                     anime.seasonYear?.let { MetaChip(it.toString()) }
+                    // Hidden 1-star "community rating" that only ever appears on One Piece.
+                    if (EasterEggs.isOnePiece(anime)) MetaChip("★ 1.0 community")
                 }
             }
         }
     }
-    // Genre chips below the hero.
+    // Genre chips below the hero. Long-press any genre to reveal the REAL Big Three.
     if (anime.genres.isNotEmpty()) {
+        var showBigThree by remember { mutableStateOf(false) }
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(top = 8.dp),
         ) {
-            items(anime.genres) { genre -> MetaChip(genre) }
+            items(anime.genres) { genre ->
+                MetaChip(
+                    genre,
+                    modifier = Modifier.combinedClickable(
+                        onClick = {},
+                        onLongClick = { showBigThree = true },
+                    ),
+                )
+            }
+        }
+        if (showBigThree) {
+            Text(
+                text = "${EasterEggs.REAL_BIG_THREE_CAPTION}  ${EasterEggs.REAL_BIG_THREE.joinToString(" · ")}",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(start = 16.dp, top = 6.dp),
+            )
         }
     }
     }

@@ -30,4 +30,6 @@ object Routes {
     const val PLAYER = "player/{anilistId}/{episode}/{translation}"
     fun player(anilistId: Int, episode: Int, translation: String = "sub") =
         "player/$anilistId/$episode/$translation"
+
+    const val SECRET_MENU = "secret_menu"
 }

@@ -54,9 +54,9 @@ Home screen wired to live discovery feeds. Remaining steps are stubbed and clear
 5. ✅ Media3 player + resume + quality switch + auto-next + gestures/PiP + Continue Watching
 6. ✅ Downloads + offline playback (WorkManager, resumable, plays offline)
 7. ✅ Search, watchlist, settings, privacy statement + local backup/restore
-8. ⬜ Easter eggs
-9. ⬜ GitHub Actions release pipeline + README
-10. ⬜ Polish: transitions, empty/error states, skeletons
+8. ✅ Easter eggs (hidden — discover them yourself)
+9. ✅ GitHub Actions release pipeline + README
+10. ◐ Polish: empty/error states + pull-to-refresh done; shared-element transitions and skeletons still TODO
 
 ## Tech stack
 

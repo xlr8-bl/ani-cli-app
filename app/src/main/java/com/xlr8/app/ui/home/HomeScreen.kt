@@ -1,13 +1,18 @@
 package com.xlr8.app.ui.home
 
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Bolt
@@ -19,9 +24,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,27 +41,67 @@ import com.xlr8.app.R
 import com.xlr8.app.ui.components.ContinueWatchingRow
 import com.xlr8.app.ui.components.HeroCarousel
 import com.xlr8.app.ui.components.SectionRow
+import com.xlr8.app.ui.easter.EasterEggs
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onAnimeClick: (Int) -> Unit,
     onResume: (anilistId: Int, episode: Int) -> Unit = { _, _ -> },
+    onOpenSecretMenu: () -> Unit = {},
     viewModel: HomeViewModel = viewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    PullToRefreshBox(
-        isRefreshing = state.isRefreshing,
-        onRefresh = viewModel::refresh,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        when {
-            state.isLoading -> LoadingState()
-            state.errorMessage != null && !state.hasContent ->
-                ErrorState(message = state.errorMessage!!, onRetry = viewModel::retry)
-            else -> HomeContent(state = state, onAnimeClick = onAnimeClick, onResume = onResume)
+    Column(modifier = Modifier.fillMaxSize()) {
+        XLR8Header(onOpenSecretMenu = onOpenSecretMenu)
+        PullToRefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = viewModel::refresh,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+        ) {
+            when {
+                state.isLoading -> LoadingState()
+                state.errorMessage != null && !state.hasContent ->
+                    ErrorState(message = state.errorMessage!!, onRetry = viewModel::retry)
+                else -> HomeContent(state = state, onAnimeClick = onAnimeClick, onResume = onResume)
+            }
         }
+    }
+}
+
+/** Brand header. Tapping the logo 8 times within a few seconds unlocks the Secret Menu. */
+@Composable
+private fun XLR8Header(onOpenSecretMenu: () -> Unit) {
+    val context = LocalContext.current
+    var taps by remember { mutableIntStateOf(0) }
+    var lastTapAt by remember { mutableLongStateOf(0L) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                val now = System.currentTimeMillis()
+                taps = if (now - lastTapAt < 1500) taps + 1 else 1
+                lastTapAt = now
+                if (taps >= 8) {
+                    taps = 0
+                    Toast.makeText(context, EasterEggs.BLEACH_MANTRA, Toast.LENGTH_SHORT).show()
+                    onOpenSecretMenu()
+                }
+            }
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(Icons.Outlined.Bolt, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+        Spacer(Modifier.width(6.dp))
+        Text(
+            text = "XLR8",
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+        )
     }
 }
 
