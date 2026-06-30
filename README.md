@@ -50,7 +50,7 @@ Home screen wired to live discovery feeds. Remaining steps are stubbed and clear
 1. ✅ Scaffold, theming, navigation, Material 3 + branding
 2. ✅ AniList client + Home discovery feeds
 3. ✅ Detail page (metadata, VAs, relations, episode grid with thumbnails, season selector)
-4. ⬜ AllAnime scraper port + title matching + source resolution
+4. ✅ AllAnime scraper port + title matching + source resolution (Room-cached mapping)
 5. ⬜ Media3 player + resume + quality switch + auto-next
 6. ⬜ Downloads + offline playback
 7. ⬜ Search, watchlist, settings, privacy
