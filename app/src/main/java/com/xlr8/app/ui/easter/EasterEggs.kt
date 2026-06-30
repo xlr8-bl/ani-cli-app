@@ -15,12 +15,9 @@ object EasterEggs {
     /** the bleach glaze pool (the mantra lives here too). */
     val BLEACH_GLAZE = listOf(
         BLEACH_MANTRA,
-        "yoruichi's yams go crazyyy 🤧🔥",
-        "bankai. that's the whole point 🤧🔥",
-        "tybw goes crazy 🤧🔥",
-        "every opening slaps 🤧🔥",
-        "the soundtrack alone mogs 🤧🔥",
-        "ichigo > 🤧🔥",
+        "yoruichi's yams go crazyyy 😭🙏",
+        "tybw>4gnw (i aint seen one piece)",
+        "best in the big three btw",
     )
 
     /** a sprinkle of ronaldo glaze. */
