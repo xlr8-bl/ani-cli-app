@@ -29,7 +29,7 @@ fun SecretMenuScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("XLR8 Secret Menu") },
+                title = { Text("xlr8 secret menu") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -54,25 +54,25 @@ fun SecretMenuScreen(onBack: () -> Unit) {
                 fontStyle = FontStyle.Italic,
             )
 
-            Section("The REAL Big Three ✊")
+            Section("the real big three ✊")
             EasterEggs.REAL_BIG_THREE.forEach { Text("• $it", style = MaterialTheme.typography.bodyLarge) }
             Text(
-                "(yes, Bleach. no, not that one.)",
+                "(yes, bleach. no, not that one.)",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
-            Section("Certified One Piece takes")
+            Section("certified one piece takes")
             EasterEggs.ONE_PIECE_ROASTS.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
 
-            Section("On Naruto (no glazing)")
+            Section("on naruto (no glazing)")
             EasterEggs.NARUTO_TAKES.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
 
-            Section("Credits")
+            Section("credits")
             EasterEggs.FRIEND_GROUP_CREDITS.forEach { Text("• $it", style = MaterialTheme.typography.bodyMedium) }
 
             Text(
-                "Built for the group chat. No accounts, no trackers, all vibes.",
+                "built for the group chat. no accounts, no trackers, all vibes.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 8.dp),

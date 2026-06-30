@@ -9,37 +9,37 @@ import kotlin.random.Random
  */
 object EasterEggs {
 
-    /** The recurring mantra. Wording is verbatim and must stay that way. */
-    const val BLEACH_MANTRA = "the bleach is peak and the peak is bleach"
+    /** The recurring mantra (verbatim wording), glazed with the bleach emojis. */
+    const val BLEACH_MANTRA = "the bleach is peak and the peak is bleach 🤧🔥"
 
-    /** The Big Three, corrected: Bleach is canonically in; One Piece is conspicuously not. */
-    val REAL_BIG_THREE = listOf("Naruto", "Bleach", "Dragon Ball")
-    const val REAL_BIG_THREE_CAPTION = "The REAL Big Three ✊"
+    /** The big three, corrected: bleach is canonically in; one piece is conspicuously not. */
+    val REAL_BIG_THREE = listOf("naruto", "bleach", "dragon ball")
+    const val REAL_BIG_THREE_CAPTION = "the real big three ✊"
 
-    /** Light, rotating jabs shown when a One Piece entry is opened. */
+    /** Light, rotating jabs shown when a one piece entry is opened. */
     val ONE_PIECE_ROASTS = listOf(
-        "1000+ episodes and they're still on a boat 💀",
-        "filler: the anime",
-        "still no ending in sight",
-        "two-hour episodes, four minutes of plot",
-        "the real One Piece was the filler we made along the way",
-        "wake me up when they reach the island",
+        "1000+ episodes and they're still on a boat 💔🥀",
+        "filler: the anime ✌️🫩",
+        "still no ending in sight 😭💔🙏",
+        "two hour episodes, four minutes of plot 💔🥀",
+        "the real one piece was the filler we made along the way ✌️🫩",
+        "wake me up when they reach the island 😭💔🙏",
     )
 
-    /** Naruto's in the Big Three — no glazing though. Mid, but still up there. */
+    /** naruto's in the big three, no glazing though. mid, but still up there. */
     val NARUTO_TAKES = listOf(
-        "Naruto: mid, but still up there… still up there",
-        "Naruto: 200 episodes of flashbacks, somehow still up there",
-        "Naruto: peaked at Pain, mid otherwise, still up there",
-        "talk no jutsu carried harder than the Big Three spot — still up there though",
+        "naruto: mid, but still up there… still up there ✌️🫩",
+        "naruto: 200 episodes of flashbacks, somehow still up there 💔🥀",
+        "naruto: peaked at pain, mid otherwise, still up there 😭💔🙏",
+        "talk no jutsu carried harder than the big three spot, still up there though ✌️🫩",
     )
 
     val FRIEND_GROUP_CREDITS = listOf(
-        "The XLR8 Crew",
-        "Resident Bleach apologist",
-        "The one who still defends One Piece (we forgive them)",
-        "Dragon Ball purist",
-        "Naruto-ran into the group chat",
+        "the xlr8 crew",
+        "resident bleach apologist 🤧🔥",
+        "the one who still defends one piece (we forgive them) 💔🥀",
+        "dragon ball purist",
+        "naruto ran into the group chat ✌️🫩",
     )
 
     fun isOnePiece(anime: Anime): Boolean = anime.matchesAnyTitle("one piece")
