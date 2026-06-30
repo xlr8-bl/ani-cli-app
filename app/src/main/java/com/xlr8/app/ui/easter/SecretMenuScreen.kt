@@ -54,7 +54,7 @@ fun SecretMenuScreen(onBack: () -> Unit) {
                 fontStyle = FontStyle.Italic,
             )
 
-            Section("the real big three ✊")
+            Section("da real BIG three (yes bro)")
             EasterEggs.REAL_BIG_THREE.forEach { Text("• $it", style = MaterialTheme.typography.bodyLarge) }
             Text(
                 "(yes, bleach. no, not that one.)",

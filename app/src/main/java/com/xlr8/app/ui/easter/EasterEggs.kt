@@ -14,7 +14,7 @@ object EasterEggs {
 
     /** The big three, corrected: bleach is canonically in; one piece is conspicuously not. */
     val REAL_BIG_THREE = listOf("naruto", "bleach", "dragon ball")
-    const val REAL_BIG_THREE_CAPTION = "the real big three ✊"
+    const val REAL_BIG_THREE_CAPTION = "da real BIG three (yes bro)"
 
     /** Light, rotating jabs shown when a one piece entry is opened. */
     val ONE_PIECE_ROASTS = listOf(
