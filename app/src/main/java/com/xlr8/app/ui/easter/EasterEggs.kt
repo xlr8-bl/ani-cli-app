@@ -18,12 +18,16 @@ object EasterEggs {
 
     /** Light, rotating jabs shown when a one piece entry is opened. */
     val ONE_PIECE_ROASTS = listOf(
-        "1000+ episodes and they're still on a boat 💔🥀",
-        "filler: the anime ✌️🫩",
-        "still no ending in sight 😭💔🙏",
-        "two hour episodes, four minutes of plot 💔🥀",
-        "the real one piece was the filler we made along the way ✌️🫩",
-        "wake me up when they reach the island 😭💔🙏",
+        "a baby born when it aired can legally drink now and they're still at sea 😭💔🙏",
+        "every island is 'the most important arc yet' for the 47th time ✌️🫩",
+        "gear 5 was peak, the 900 episodes before it were a warmup 💔🥀",
+        "spent more time at one tea party than most shows run in total 😭💔🙏",
+        "1100 episodes deep and the treasure is still a rumor ✌️🫩",
+        "they scream the attack name longer than the fight actually lasts 💔🥀",
+        "the pacing is a glacier and the glacier is winning 😭💔🙏",
+        "you could learn fluent japanese in the time one arc takes ✌️🫩",
+        "two hours of episode, four minutes of plot, eleven flashbacks 💔🥀",
+        "still 'almost at the next island' since before you had a phone 😭💔🙏",
     )
 
     /** naruto's in the big three, no glazing though. mid, but still up there. */
