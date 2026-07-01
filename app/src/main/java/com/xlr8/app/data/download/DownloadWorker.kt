@@ -15,12 +15,12 @@ import com.xlr8.app.data.local.DownloadEntity
 import com.xlr8.app.data.local.DownloadStatus
 import com.xlr8.app.data.remote.allanime.AllAnimeApi
 import com.xlr8.app.di.ServiceLocator
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
 import java.io.File
 import java.io.RandomAccessFile
 import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.coroutines.coroutineContext
 
 /**
  * Streams a progressive (mp4) episode to local storage with HTTP-Range resume so a paused
@@ -90,7 +90,7 @@ class DownloadWorker(
                 var downloaded = existing
                 var lastReport = 0L
                 while (true) {
-                    if (!coroutineContext.isActive || isStopped) throw StoppedException()
+                    if (!currentCoroutineContext().isActive || isStopped) throw StoppedException()
                     val read = input.read(buffer)
                     if (read == -1) break
                     out.write(buffer, 0, read)

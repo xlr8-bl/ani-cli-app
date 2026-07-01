@@ -34,6 +34,13 @@
             </intent-filter>
         </activity>
 
+        <!-- WorkManager's foreground-notification service, used by DownloadWorker.
+             Android 14+ requires the foreground service type to be declared here. -->
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:foregroundServiceType="dataSync"
+            tools:node="merge" />
+
     </application>
 
 </manifest>
