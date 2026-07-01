@@ -19,11 +19,16 @@
   };
 
   idx = {
-    # Editor extensions (Kotlin + Gradle tooling).
+    # Editor extensions. Deliberately NOT including vscjava.vscode-gradle or
+    # redhat.java: both run their own background Gradle Tooling API client
+    # (vscode-gradle directly; redhat.java via Eclipse Buildship's project
+    # import/sync) that fights over the local daemon socket with manual
+    # `./gradlew` terminal runs, producing "Unexpected type tag" /
+    # MessageIOException crosstalk. fwcd.kotlin alone covers Kotlin syntax
+    # support without touching the Gradle daemon; build from the terminal or
+    # the Android preview.
     extensions = [
       "fwcd.kotlin"
-      "vscjava.vscode-gradle"
-      "redhat.java"
     ];
 
     workspace = {
