@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -103,12 +106,12 @@ private fun XLR8Header(onOpenSecretMenu: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(Icons.Outlined.Bolt, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-        Spacer(Modifier.width(6.dp))
-        Text(
-            text = "XLR8",
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
+        // Manga head + shout-bubble lockup; light/dark asset chosen by theme (drawable-night).
+        Image(
+            painter = painterResource(R.drawable.xlr8_banner),
+            contentDescription = "XLR8",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.height(58.dp),
         )
     }
 }
